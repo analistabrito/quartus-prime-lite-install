@@ -1,18 +1,31 @@
 #!/bin/bash
 
 # Atualiza o sistema
+echo "Atualizando o sistema..."
 sudo apt-get update && sudo apt-get upgrade -y
 
-# Define URLs para download
-QUARTUS_URL="https://www.intel.com/content/www/us/en/software-kit/795187/intel-quartus-prime-lite-edition-design-software-version-23-1-for-linux.html"
-MODELSIM_URL="https://www.intel.com/content/www/us/en/software-kit/750666/modelsim-intel-fpgas-standard-edition-software-version-20-1-1.html"
+# Cria diretório para armazenar os instaladores
+INSTALL_DIR="$HOME/quartus_installation"
+mkdir -p "$INSTALL_DIR"
+cd "$INSTALL_DIR"
 
-# Baixe os instaladores
+# Define URLs para download dos instaladores
+echo "Lendo os links dos instaladores a partir do arquivo links.txt..."
+QUARTUS_URL=$(grep -o 'https://www.intel.com/content/.*quartus-prime-lite.*' ../dependencies/links.txt)
+MODELSIM_URL=$(grep -o 'https://www.intel.com/content/.*modelsim-intel.*' ../dependencies/links.txt)
+
+# Verifica se os links foram encontrados
+if [ -z "$QUARTUS_URL" ] || [ -z "$MODELSIM_URL" ]; then
+    echo "Erro: Não foi possível encontrar os links no arquivo links.txt."
+    exit 1
+fi
+
+# Baixa os instaladores
 echo "Baixando o Quartus Prime Lite..."
-wget $QUARTUS_URL -O quartus_installer.run
+wget -c "$QUARTUS_URL" -O quartus_installer.run
 
 echo "Baixando o ModelSim..."
-wget $MODELSIM_URL -O modelsim_installer.run
+wget -c "$MODELSIM_URL" -O modelsim_installer.run
 
 # Torna os arquivos executáveis
 echo "Alterando permissão dos instaladores..."
@@ -35,3 +48,5 @@ echo "Instalando o ModelSim..."
 # Instruções de configuração final
 echo "Aponte o caminho do ModelSim no Quartus Prime:"
 echo "Vá em Tools > Options > EDA Tool Options e defina o caminho para a pasta 'bin' do ModelSim."
+
+echo "Instalação concluída!"
