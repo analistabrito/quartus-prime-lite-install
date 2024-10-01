@@ -1,6 +1,6 @@
 # Instalação do Quartus Prime Lite com ModelSim
 
-Este repositório contém os scripts e informações necessárias para a instalação do Quartus Prime Lite e ModelSim no Linux.
+Este repositório contém os scripts e informações necessárias para a instalação do Quartus Prime Lite e ModelSim no Linux Mint 20.3.
 
 ## Estrutura do Repositório
 
@@ -17,5 +17,5 @@ Este repositório contém os scripts e informações necessárias para a instala
 
 1. Clone o repositório:
    ```bash
-   git clone <URL do repositório>
+   git clone https://github.com/analistabrito/quartus-install.git
    cd quartus_installation
